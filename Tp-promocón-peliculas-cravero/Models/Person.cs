@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tp_promoción_peliculas_cravero.Models
 {
-    public class Actor
+    public class Person
     {
         public int Id { get; set; }
 
@@ -24,5 +24,7 @@ namespace Tp_promoción_peliculas_cravero.Models
 
         [Display(Name = "Foto de persona")]
         public string Photo { get; set; }
+
+        public List<Film> Film { get; set; }
     }
 }

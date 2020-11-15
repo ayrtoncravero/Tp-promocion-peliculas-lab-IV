@@ -9,7 +9,7 @@ namespace Tp_promoción_peliculas_cravero.Models
     {
         public int PersonId { get; set; }
         public int FilmId { get; set; }
-        public Actor Persons { get; set; }
+        public Person Persons { get; set; }
         public Film Films { get; set; }
     }
 }
