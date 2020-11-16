@@ -40,7 +40,8 @@
                 @Html.DisplayFor(modelItem => item.Biography)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Photo)
+                @*@Html.DisplayFor(modelItem => item.Photo)*@
+                <img src="~/Image/People/@item.Photo" alt="Imagen de actor" height="80" width="80" asp-append-version="true" />
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

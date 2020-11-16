@@ -28,10 +28,13 @@
                 <input asp-for="Biography" class="form-control" />
                 <span asp-validation-for="Biography" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="Photo" class="control-label"></label>
                 <input asp-for="Photo" class="form-control" />
                 <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <img src="~/Image/People/@Model.Photo" alt="Imagen del actor" height="80" width="80" asp-append-version="true" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

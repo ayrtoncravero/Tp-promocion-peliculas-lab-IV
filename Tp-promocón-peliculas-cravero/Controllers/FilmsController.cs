@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +15,12 @@ namespace Tp_promocón_peliculas_cravero.Controllers
     public class FilmsController : Controller
     {
         private readonly DbConection _context;
+        private readonly IWebHostEnvironment env;
 
-        public FilmsController(DbConection context)
+        public FilmsController(DbConection context, IWebHostEnvironment env)
         {
             _context = context;
+            this.env = env;
         }
 
         // GET: Films
@@ -61,6 +65,24 @@ namespace Tp_promocón_peliculas_cravero.Controllers
         {
             if (ModelState.IsValid)
             {
+                var file = HttpContext.Request.Form.Files;
+                if(file != null && file.Count > 0)
+                {
+                    var filePhoto = file[0];
+                    var pathDestine = Path.Combine(env.WebRootPath, "Image\\Movies");
+
+                    if(filePhoto.Length > 0)
+                    {
+                        var fileDestine = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(filePhoto.FileName);
+
+                        using (var filestrem = new FileStream(Path.Combine(pathDestine, fileDestine), FileMode.Create))
+                        {
+                            filePhoto.CopyTo(filestrem);
+                            film.Photo = fileDestine;
+                        };
+                    }
+                }
+
                 _context.Add(film);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -91,7 +113,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Photo,Trailer,Summary,GenderId,billboard")] Film film)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Photo,Trailer,Summary,GenderId,billboard,Photo")] Film film)
         {
             if (id != film.Id)
             {
@@ -100,6 +122,31 @@ namespace Tp_promocón_peliculas_cravero.Controllers
 
             if (ModelState.IsValid)
             {
+                //Para que guarde la fotoal editar
+                var file = HttpContext.Request.Form.Files;
+                if (file != null && file.Count > 0)
+                {
+                    var filePhoto = file[0];
+                    var pathDestine = Path.Combine(env.WebRootPath, "Image\\Movies");
+
+                    if (filePhoto.Length > 0)
+                    {
+                        var fileDestine = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(filePhoto.FileName);
+
+                        using (var filestrem = new FileStream(Path.Combine(pathDestine, fileDestine), FileMode.Create))
+                        {
+                            filePhoto.CopyTo(filestrem);
+
+                            //Para eliminar la foto anterior por la nueva
+                            string oldFile = Path.Combine(pathDestine, film.Photo);
+                            if (System.IO.File.Exists(oldFile))
+                                System.IO.File.Delete(oldFile);
+                            film.Photo = fileDestine;
+                            
+                        };
+                    }
+                }
+
                 try
                 {
                     _context.Update(film);

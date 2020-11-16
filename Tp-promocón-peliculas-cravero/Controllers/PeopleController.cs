@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +15,12 @@ namespace Tp_promocón_peliculas_cravero.Controllers
     public class PeopleController : Controller
     {
         private readonly DbConection _context;
+        private readonly IWebHostEnvironment env;
 
-        public PeopleController(DbConection context)
+        public PeopleController(DbConection context, IWebHostEnvironment env)
         {
             _context = context;
+            this.env = env;
         }
 
         // GET: People
@@ -58,6 +62,24 @@ namespace Tp_promocón_peliculas_cravero.Controllers
         {
             if (ModelState.IsValid)
             {
+                var file = HttpContext.Request.Form.Files;
+                if (file != null && file.Count > 0)
+                {
+                    var filePhoto = file[0];
+                    var pathDestine = Path.Combine(env.WebRootPath, "Image\\People");
+
+                    if (filePhoto.Length > 0)
+                    {
+                        var fileDestine = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(filePhoto.FileName);
+
+                        using (var filestrem = new FileStream(Path.Combine(pathDestine, fileDestine), FileMode.Create))
+                        {
+                            filePhoto.CopyTo(filestrem);
+                            person.Photo = fileDestine;
+                        };
+                    }
+                }
+
                 _context.Add(person);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

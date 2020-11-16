@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data" asp-controller="Films" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -22,11 +22,19 @@
                 <input asp-for="ReleaseDate" class="form-control" />
                 <span asp-validation-for="ReleaseDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+
+            @*<div class="form-group">
                 <label asp-for="Photo" class="control-label"></label>
                 <input asp-for="Photo" class="form-control" />
                 <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>*@
+            <label>Seleccionar portada:</label>
+            <div class="form-group">
+                <input asp-for="Photo" type="file" class="form-control" />
             </div>
+
+
             <div class="form-group">
                 <label asp-for="Trailer" class="control-label"></label>
                 <input asp-for="Trailer" class="form-control" />
