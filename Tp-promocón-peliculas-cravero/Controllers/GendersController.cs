@@ -22,7 +22,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
         // GET: Genders
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Genders.ToListAsync());
+            return View(await _context.Gender.ToListAsync());
         }
 
         // GET: Genders/Details/5
@@ -33,7 +33,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
                 return NotFound();
             }
 
-            var gender = await _context.Genders
+            var gender = await _context.Gender
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (gender == null)
             {
@@ -73,7 +73,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
                 return NotFound();
             }
 
-            var gender = await _context.Genders.FindAsync(id);
+            var gender = await _context.Gender.FindAsync(id);
             if (gender == null)
             {
                 return NotFound();
@@ -124,7 +124,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
                 return NotFound();
             }
 
-            var gender = await _context.Genders
+            var gender = await _context.Gender
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (gender == null)
             {
@@ -139,15 +139,15 @@ namespace Tp_promocón_peliculas_cravero.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var gender = await _context.Genders.FindAsync(id);
-            _context.Genders.Remove(gender);
+            var gender = await _context.Gender.FindAsync(id);
+            _context.Gender.Remove(gender);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool GenderExists(int id)
         {
-            return _context.Genders.Any(e => e.Id == id);
+            return _context.Gender.Any(e => e.Id == id);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
         // GET: MovieActors
         public async Task<IActionResult> Index()
         {
-            var dbConection = _context.MoviesActors.Include(m => m.Films).Include(m => m.Persons);
+            var dbConection = _context.MoviesActor.Include(m => m.Film).Include(m => m.Person);
             return View(await dbConection.ToListAsync());
         }
 
@@ -34,9 +34,9 @@ namespace Tp_promocón_peliculas_cravero.Controllers
                 return NotFound();
             }
 
-            var movieActor = await _context.MoviesActors
-                .Include(m => m.Films)
-                .Include(m => m.Persons)
+            var movieActor = await _context.MoviesActor
+                .Include(m => m.Film)
+                .Include(m => m.Person)
                 .FirstOrDefaultAsync(m => m.FilmId == id);
             if (movieActor == null)
             {
@@ -49,8 +49,8 @@ namespace Tp_promocón_peliculas_cravero.Controllers
         // GET: MovieActors/Create
         public IActionResult Create()
         {
-            ViewData["FilmId"] = new SelectList(_context.Films, "Id", "Genres");
-            ViewData["PersonId"] = new SelectList(_context.Actors, "Id", "Biography");
+            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "ReleaseDate");
+            ViewData["PersonId"] = new SelectList(_context.Actor, "Id", "Biography");
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersonId,FilmId")] MovieActor movieActor)
+        public async Task<IActionResult> Create([Bind("FilmId,PersonId")] MovieActor movieActor)
         {
             if (ModelState.IsValid)
             {
@@ -67,8 +67,8 @@ namespace Tp_promocón_peliculas_cravero.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FilmId"] = new SelectList(_context.Films, "Id", "Genres", movieActor.FilmId);
-            ViewData["PersonId"] = new SelectList(_context.Actors, "Id", "Biography", movieActor.PersonId);
+            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "ReleaseDate", movieActor.FilmId);
+            ViewData["PersonId"] = new SelectList(_context.Actor, "Id", "Biography", movieActor.PersonId);
             return View(movieActor);
         }
 
@@ -80,13 +80,13 @@ namespace Tp_promocón_peliculas_cravero.Controllers
                 return NotFound();
             }
 
-            var movieActor = await _context.MoviesActors.FindAsync(id);
+            var movieActor = await _context.MoviesActor.FindAsync(id);
             if (movieActor == null)
             {
                 return NotFound();
             }
-            ViewData["FilmId"] = new SelectList(_context.Films, "Id", "Genres", movieActor.FilmId);
-            ViewData["PersonId"] = new SelectList(_context.Actors, "Id", "Biography", movieActor.PersonId);
+            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "ReleaseDate", movieActor.FilmId);
+            ViewData["PersonId"] = new SelectList(_context.Actor, "Id", "Biography", movieActor.PersonId);
             return View(movieActor);
         }
 
@@ -95,7 +95,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PersonId,FilmId")] MovieActor movieActor)
+        public async Task<IActionResult> Edit(int id, [Bind("FilmId,PersonId")] MovieActor movieActor)
         {
             if (id != movieActor.FilmId)
             {
@@ -122,8 +122,8 @@ namespace Tp_promocón_peliculas_cravero.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FilmId"] = new SelectList(_context.Films, "Id", "Genres", movieActor.FilmId);
-            ViewData["PersonId"] = new SelectList(_context.Actors, "Id", "Biography", movieActor.PersonId);
+            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "ReleaseDate", movieActor.FilmId);
+            ViewData["PersonId"] = new SelectList(_context.Actor, "Id", "Biography", movieActor.PersonId);
             return View(movieActor);
         }
 
@@ -135,9 +135,9 @@ namespace Tp_promocón_peliculas_cravero.Controllers
                 return NotFound();
             }
 
-            var movieActor = await _context.MoviesActors
-                .Include(m => m.Films)
-                .Include(m => m.Persons)
+            var movieActor = await _context.MoviesActor
+                .Include(m => m.Film)
+                .Include(m => m.Person)
                 .FirstOrDefaultAsync(m => m.FilmId == id);
             if (movieActor == null)
             {
@@ -152,15 +152,15 @@ namespace Tp_promocón_peliculas_cravero.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var movieActor = await _context.MoviesActors.FindAsync(id);
-            _context.MoviesActors.Remove(movieActor);
+            var movieActor = await _context.MoviesActor.FindAsync(id);
+            _context.MoviesActor.Remove(movieActor);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool MovieActorExists(int id)
         {
-            return _context.MoviesActors.Any(e => e.FilmId == id);
+            return _context.MoviesActor.Any(e => e.FilmId == id);
         }
     }
 }

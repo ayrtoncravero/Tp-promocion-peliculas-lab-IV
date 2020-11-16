@@ -10,7 +10,7 @@ using Tp_promocón_peliculas_cravero;
 namespace Tp_promocón_peliculas_cravero.Migrations
 {
     [DbContext(typeof(DbConection))]
-    [Migration("20201115164841_Initial")]
+    [Migration("20201116144137_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,21 +21,6 @@ namespace Tp_promocón_peliculas_cravero.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("FilmPerson", b =>
-                {
-                    b.Property<int>("FilmId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FilmId", "PersonId");
-
-                    b.HasIndex("PersonId");
-
-                    b.ToTable("FilmPerson");
-                });
-
             modelBuilder.Entity("Tp_promoción_peliculas_cravero.Models.Film", b =>
                 {
                     b.Property<int>("Id")
@@ -43,16 +28,18 @@ namespace Tp_promocón_peliculas_cravero.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Genres")
+                    b.Property<int?>("GenderId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PersonId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Photo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ReleaseDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Summary")
                         .IsRequired()
@@ -66,9 +53,16 @@ namespace Tp_promocón_peliculas_cravero.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("billboard")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Films");
+                    b.HasIndex("GenderId");
+
+                    b.HasIndex("PersonId");
+
+                    b.ToTable("Film");
                 });
 
             modelBuilder.Entity("Tp_promoción_peliculas_cravero.Models.Gender", b =>
@@ -84,7 +78,7 @@ namespace Tp_promocón_peliculas_cravero.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genders");
+                    b.ToTable("Gender");
                 });
 
             modelBuilder.Entity("Tp_promoción_peliculas_cravero.Models.MovieActor", b =>
@@ -99,7 +93,7 @@ namespace Tp_promocón_peliculas_cravero.Migrations
 
                     b.HasIndex("PersonId");
 
-                    b.ToTable("MoviesActors");
+                    b.ToTable("MoviesActor");
                 });
 
             modelBuilder.Entity("Tp_promoción_peliculas_cravero.Models.Person", b =>
@@ -125,41 +119,51 @@ namespace Tp_promocón_peliculas_cravero.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Actors");
+                    b.ToTable("Actor");
                 });
 
-            modelBuilder.Entity("FilmPerson", b =>
+            modelBuilder.Entity("Tp_promoción_peliculas_cravero.Models.Film", b =>
                 {
-                    b.HasOne("Tp_promoción_peliculas_cravero.Models.Film", null)
+                    b.HasOne("Tp_promoción_peliculas_cravero.Models.Gender", "Genders")
                         .WithMany()
-                        .HasForeignKey("FilmId")
+                        .HasForeignKey("GenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Tp_promoción_peliculas_cravero.Models.Person", null)
-                        .WithMany()
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Films")
+                        .HasForeignKey("PersonId");
+
+                    b.Navigation("Genders");
                 });
 
             modelBuilder.Entity("Tp_promoción_peliculas_cravero.Models.MovieActor", b =>
                 {
-                    b.HasOne("Tp_promoción_peliculas_cravero.Models.Film", "Films")
-                        .WithMany()
+                    b.HasOne("Tp_promoción_peliculas_cravero.Models.Film", "Film")
+                        .WithMany("MovieActors")
                         .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Tp_promoción_peliculas_cravero.Models.Person", "Persons")
+                    b.HasOne("Tp_promoción_peliculas_cravero.Models.Person", "Person")
                         .WithMany()
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Films");
+                    b.Navigation("Film");
 
-                    b.Navigation("Persons");
+                    b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("Tp_promoción_peliculas_cravero.Models.Film", b =>
+                {
+                    b.Navigation("MovieActors");
+                });
+
+            modelBuilder.Entity("Tp_promoción_peliculas_cravero.Models.Person", b =>
+                {
+                    b.Navigation("Films");
                 });
 #pragma warning restore 612, 618
         }

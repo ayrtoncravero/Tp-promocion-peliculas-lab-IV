@@ -22,7 +22,8 @@ namespace Tp_promocón_peliculas_cravero.Controllers
         // GET: Films
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Films.ToListAsync());
+            var dbConection = _context.Film.Include(f => f.Genders);
+            return View(await dbConection.ToListAsync());
         }
 
         // GET: Films/Details/5
@@ -33,7 +34,8 @@ namespace Tp_promocón_peliculas_cravero.Controllers
                 return NotFound();
             }
 
-            var film = await _context.Films
+            var film = await _context.Film
+                .Include(f => f.Genders)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (film == null)
             {
@@ -46,6 +48,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
         // GET: Films/Create
         public IActionResult Create()
         {
+            ViewData["GenderId"] = new SelectList(_context.Gender, "Id", "Description");
             return View();
         }
 
@@ -54,7 +57,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,ReleaseDate,Photo,Trailer,Summary,Genres")] Film film)
+        public async Task<IActionResult> Create([Bind("Id,Title,ReleaseDate,Photo,Trailer,Summary,GenderId,billboard")] Film film)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +65,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["GenderId"] = new SelectList(_context.Gender, "Id", "Description", film.GenderId);
             return View(film);
         }
 
@@ -73,11 +77,12 @@ namespace Tp_promocón_peliculas_cravero.Controllers
                 return NotFound();
             }
 
-            var film = await _context.Films.FindAsync(id);
+            var film = await _context.Film.FindAsync(id);
             if (film == null)
             {
                 return NotFound();
             }
+            ViewData["GenderId"] = new SelectList(_context.Gender, "Id", "Description", film.GenderId);
             return View(film);
         }
 
@@ -86,7 +91,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Photo,Trailer,Summary,Genres")] Film film)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Photo,Trailer,Summary,GenderId,billboard")] Film film)
         {
             if (id != film.Id)
             {
@@ -113,6 +118,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["GenderId"] = new SelectList(_context.Gender, "Id", "Description", film.GenderId);
             return View(film);
         }
 
@@ -124,7 +130,8 @@ namespace Tp_promocón_peliculas_cravero.Controllers
                 return NotFound();
             }
 
-            var film = await _context.Films
+            var film = await _context.Film
+                .Include(f => f.Genders)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (film == null)
             {
@@ -139,15 +146,15 @@ namespace Tp_promocón_peliculas_cravero.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var film = await _context.Films.FindAsync(id);
-            _context.Films.Remove(film);
+            var film = await _context.Film.FindAsync(id);
+            _context.Film.Remove(film);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FilmExists(int id)
         {
-            return _context.Films.Any(e => e.Id == id);
+            return _context.Film.Any(e => e.Id == id);
         }
     }
 }

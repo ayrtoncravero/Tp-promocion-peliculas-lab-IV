@@ -10,22 +10,22 @@ using Tp_promocón_peliculas_cravero;
 
 namespace Tp_promocón_peliculas_cravero.Controllers
 {
-    public class PersonController : Controller
+    public class PeopleController : Controller
     {
         private readonly DbConection _context;
 
-        public PersonController(DbConection context)
+        public PeopleController(DbConection context)
         {
             _context = context;
         }
 
-        // GET: Person
+        // GET: People
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Actors.ToListAsync());
+            return View(await _context.Actor.ToListAsync());
         }
 
-        // GET: Person/Details/5
+        // GET: People/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,7 +33,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Actors
+            var person = await _context.Actor
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (person == null)
             {
@@ -43,13 +43,13 @@ namespace Tp_promocón_peliculas_cravero.Controllers
             return View(person);
         }
 
-        // GET: Person/Create
+        // GET: People/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Person/Create
+        // POST: People/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -65,7 +65,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
             return View(person);
         }
 
-        // GET: Person/Edit/5
+        // GET: People/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,7 +73,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Actors.FindAsync(id);
+            var person = await _context.Actor.FindAsync(id);
             if (person == null)
             {
                 return NotFound();
@@ -81,7 +81,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
             return View(person);
         }
 
-        // POST: Person/Edit/5
+        // POST: People/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -116,7 +116,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
             return View(person);
         }
 
-        // GET: Person/Delete/5
+        // GET: People/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,7 +124,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Actors
+            var person = await _context.Actor
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (person == null)
             {
@@ -134,20 +134,20 @@ namespace Tp_promocón_peliculas_cravero.Controllers
             return View(person);
         }
 
-        // POST: Person/Delete/5
+        // POST: People/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var person = await _context.Actors.FindAsync(id);
-            _context.Actors.Remove(person);
+            var person = await _context.Actor.FindAsync(id);
+            _context.Actor.Remove(person);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PersonExists(int id)
         {
-            return _context.Actors.Any(e => e.Id == id);
+            return _context.Actor.Any(e => e.Id == id);
         }
     }
 }

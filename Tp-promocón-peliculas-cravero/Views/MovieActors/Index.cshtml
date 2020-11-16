@@ -13,10 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Persons)
+                @Html.DisplayNameFor(model => model.Film)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Films)
+                @Html.DisplayNameFor(model => model.Person)
             </th>
             <th></th>
         </tr>
@@ -25,10 +25,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Persons.Biography)
+                @Html.DisplayFor(modelItem => item.Film.ReleaseDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Films.Genres)
+                @Html.DisplayFor(modelItem => item.Person.Biography)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

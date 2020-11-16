@@ -10,8 +10,11 @@ namespace Tp_promoción_peliculas_cravero.Models
     {
         public int Id { get; set; }
 
-        [Display(Name = "Descripcion")]
+
+        [Display(Name = "Nombre")]
         [Required(ErrorMessage = "El campo es requerido")]
         public string Description { get; set; }
+
+        List<Gender> Genders { get; set; }
     }
 }

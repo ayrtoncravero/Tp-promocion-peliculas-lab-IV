@@ -24,9 +24,9 @@ namespace Tp_promocón_peliculas_cravero
             modelBuilder.Entity<MovieActor>().HasKey(x => new { x.FilmId, x.PersonId });
         }
 
-        public DbSet<Person> Actors { get; set; } 
-        public DbSet<Film> Films { get; set; } 
-        public DbSet<Gender> Genders { get; set; } 
-        public DbSet<MovieActor> MoviesActors { set; get; }
+        public DbSet<Person> Actor { get; set; } 
+        public DbSet<Film> Film { get; set; } 
+        public DbSet<Gender> Gender { get; set; } 
+        public DbSet<MovieActor> MoviesActor { set; get; }
     }
 }
