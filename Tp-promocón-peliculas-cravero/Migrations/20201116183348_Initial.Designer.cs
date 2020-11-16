@@ -10,7 +10,7 @@ using Tp_promocón_peliculas_cravero;
 namespace Tp_promocón_peliculas_cravero.Migrations
 {
     [DbContext(typeof(DbConection))]
-    [Migration("20201116160439_Initial")]
+    [Migration("20201116183348_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

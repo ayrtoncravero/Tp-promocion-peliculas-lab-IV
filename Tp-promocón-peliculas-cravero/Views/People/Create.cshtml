@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create"  enctype="multipart/form-data" asp-controller="People" method="post">
+        <form asp-action="Create" enctype="multipart/form-data" asp-controller="People" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -27,15 +27,20 @@
                 <input asp-for="Biography" class="form-control" />
                 <span asp-validation-for="Biography" class="text-danger"></span>
             </div>
+
+
             @*<div class="form-group">
-                <label asp-for="Photo" class="control-label"></label>
-                <input asp-for="Photo" class="form-control" />
-                <span asp-validation-for="Photo" class="text-danger"></span>
-            </div>*@
+                    <label asp-for="Photo" class="control-label"></label>
+                    <input asp-for="Photo" class="form-control" />
+                    <span asp-validation-for="Photo" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <label>Foto del actor</label>
-                <input asp-for="Photo" type="file" class="form-control" />
+                <input asp-for="Photo" type="file" id="selectionImg" class="form-control" />
+                <img id="image" src="" alt="Imagen seleccionada" height="80" width="80" />
             </div>
+
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -50,3 +55,6 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="~/js//images.js"></script>

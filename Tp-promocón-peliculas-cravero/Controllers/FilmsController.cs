@@ -122,7 +122,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
 
             if (ModelState.IsValid)
             {
-                //Para que guarde la fotoal editar
+                //Para que guarde la foto al editar
                 var file = HttpContext.Request.Form.Files;
                 if (file != null && file.Count > 0)
                 {
@@ -138,7 +138,7 @@ namespace Tp_promocón_peliculas_cravero.Controllers
                             filePhoto.CopyTo(filestrem);
 
                             //Para eliminar la foto anterior por la nueva
-                            string oldFile = Path.Combine(pathDestine, film.Photo);
+                            string oldFile = Path.Combine(pathDestine, film.Photo ?? null);
                             if (System.IO.File.Exists(oldFile))
                                 System.IO.File.Delete(oldFile);
                             film.Photo = fileDestine;

@@ -141,7 +141,16 @@ namespace Tp_promocón_peliculas_cravero.Controllers
         {
             var gender = await _context.Gender.FindAsync(id);
             _context.Gender.Remove(gender);
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return this.Problem("No se puede eliminar la categoria");
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

@@ -117,6 +117,32 @@ namespace Tp_promocón_peliculas_cravero.Controllers
 
             if (ModelState.IsValid)
             {
+                //Para que guarde la foto al editar
+                var file = HttpContext.Request.Form.Files;
+                if (file != null && file.Count > 0)
+                {
+                    var filePhoto = file[0];
+                    var pathDestine = Path.Combine(env.WebRootPath, "Image\\People");
+
+                    if (filePhoto.Length > 0)
+                    {
+                        var fileDestine = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(filePhoto.FileName);
+
+                        using (var filestrem = new FileStream(Path.Combine(pathDestine, fileDestine), FileMode.Create))
+                        {
+                            filePhoto.CopyTo(filestrem);
+
+                            //Para eliminar la foto anterior por la nueva
+                            string oldFile = Path.Combine(pathDestine, person.Photo ?? "");
+                            if (System.IO.File.Exists(oldFile))
+                                System.IO.File.Delete(oldFile);
+                            person.Photo = fileDestine;
+
+                        };
+                    }
+                }
+
+
                 try
                 {
                     _context.Update(person);

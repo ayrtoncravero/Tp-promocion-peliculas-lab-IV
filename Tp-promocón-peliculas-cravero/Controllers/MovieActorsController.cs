@@ -49,8 +49,8 @@ namespace Tp_promocón_peliculas_cravero.Controllers
         // GET: MovieActors/Create
         public IActionResult Create()
         {
-            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "ReleaseDate");
-            ViewData["PersonId"] = new SelectList(_context.Actor, "Id", "Biography");
+            ViewData["FilmId"] = new SelectList(_context.Film, "Id", "Title");
+            ViewData["PersonId"] = new SelectList(_context.Actor, "Id", "Name");
             return View();
         }
 

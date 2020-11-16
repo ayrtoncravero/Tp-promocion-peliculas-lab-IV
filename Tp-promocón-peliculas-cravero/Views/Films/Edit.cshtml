@@ -23,6 +23,8 @@
                 <input asp-for="ReleaseDate" class="form-control" />
                 <span asp-validation-for="ReleaseDate" class="text-danger"></span>
             </div>
+
+
             @*Foto*@
             @*<div class="form-group">
                 <label asp-for="Photo" class="control-label"></label>
@@ -31,9 +33,10 @@
             </div>*@
             <input type="hidden" asp-for="Photo" />
             <div>
-                <img src="~/Image/Movies/@Model.Photo" alt="Imagen de pelicula" height="80" width="80" asp-append-version="true" />
-                <input asp-for="Photo" type="file" class="form-control" />
+                <img src="~/Image/Movies/@Model.Photo" id="image" alt="Imagen de pelicula" height="80" width="80" asp-append-version="true" />
+                <input asp-for="Photo" type="file" id="selectionImg" class="form-control" />
             </div>
+
 
             <div class="form-group">
                 <label asp-for="Trailer" class="control-label"></label>
@@ -69,3 +72,7 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="~/js//images.js"></script>
