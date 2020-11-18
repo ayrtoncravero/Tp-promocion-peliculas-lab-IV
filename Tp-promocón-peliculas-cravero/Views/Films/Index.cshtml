@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Tp_promoción_peliculas_cravero.Models.Film>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Peliculas";
 }
 
-<h1>Index</h1>
+<h1>Inicio de peliculas</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Crear nueva pelicula</a>
 </p>
 <table class="table">
     <thead>
@@ -46,7 +46,6 @@
                 @Html.DisplayFor(modelItem => item.ReleaseDate)
             </td>
             <td>
-                @*@Html.DisplayFor(modelItem => item.Photo)*@
                 <img src="~/Image/Movies/@item.Photo" alt="Imagen de pelicula" height="80" width="80" asp-append-version="true"/>
             </td>
             <td>
@@ -62,9 +61,9 @@
                 @Html.DisplayFor(modelItem => item.billboard)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
             </td>
         </tr>
 }

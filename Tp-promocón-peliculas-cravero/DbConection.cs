@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tp_promoción_peliculas_cravero.Models;
+using Tp_promocón_peliculas_cravero.Models;
 
 namespace Tp_promocón_peliculas_cravero
 {
@@ -14,10 +15,6 @@ namespace Tp_promocón_peliculas_cravero
         {
 
         }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
-        //{
-        //    optionBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Tp-promocion-peliculas-cravero;Trusted_Connection=True;MultipleActiveResultSets=True");
-        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

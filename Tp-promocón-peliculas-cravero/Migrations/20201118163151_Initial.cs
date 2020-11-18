@@ -48,18 +48,11 @@ namespace Tp_promocón_peliculas_cravero.Migrations
                     Trailer = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Summary = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GenderId = table.Column<int>(type: "int", nullable: false),
-                    billboard = table.Column<bool>(type: "bit", nullable: false),
-                    PersonId = table.Column<int>(type: "int", nullable: true)
+                    billboard = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Film", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Film_Actor_PersonId",
-                        column: x => x.PersonId,
-                        principalTable: "Actor",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Film_Gender_GenderId",
                         column: x => x.GenderId,
@@ -98,11 +91,6 @@ namespace Tp_promocón_peliculas_cravero.Migrations
                 column: "GenderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Film_PersonId",
-                table: "Film",
-                column: "PersonId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_MoviesActor_PersonId",
                 table: "MoviesActor",
                 column: "PersonId");
@@ -114,10 +102,10 @@ namespace Tp_promocón_peliculas_cravero.Migrations
                 name: "MoviesActor");
 
             migrationBuilder.DropTable(
-                name: "Film");
+                name: "Actor");
 
             migrationBuilder.DropTable(
-                name: "Actor");
+                name: "Film");
 
             migrationBuilder.DropTable(
                 name: "Gender");

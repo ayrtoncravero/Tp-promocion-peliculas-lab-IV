@@ -30,9 +30,6 @@ namespace Tp_promocón_peliculas_cravero.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int?>("PersonId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Photo")
                         .HasColumnType("nvarchar(max)");
 
@@ -57,8 +54,6 @@ namespace Tp_promocón_peliculas_cravero.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("GenderId");
-
-                    b.HasIndex("PersonId");
 
                     b.ToTable("Film");
                 });
@@ -128,10 +123,6 @@ namespace Tp_promocón_peliculas_cravero.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Tp_promoción_peliculas_cravero.Models.Person", null)
-                        .WithMany("Films")
-                        .HasForeignKey("PersonId");
-
                     b.Navigation("Genders");
                 });
 
@@ -144,7 +135,7 @@ namespace Tp_promocón_peliculas_cravero.Migrations
                         .IsRequired();
 
                     b.HasOne("Tp_promoción_peliculas_cravero.Models.Person", "Person")
-                        .WithMany()
+                        .WithMany("MovieActors")
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -161,7 +152,7 @@ namespace Tp_promocón_peliculas_cravero.Migrations
 
             modelBuilder.Entity("Tp_promoción_peliculas_cravero.Models.Person", b =>
                 {
-                    b.Navigation("Films");
+                    b.Navigation("MovieActors");
                 });
 #pragma warning restore 612, 618
         }

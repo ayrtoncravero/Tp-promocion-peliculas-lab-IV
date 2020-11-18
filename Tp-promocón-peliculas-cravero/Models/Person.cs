@@ -26,10 +26,10 @@ namespace Tp_promoción_peliculas_cravero.Models
         public string Biography { get; set; }
 
 
-        [Display(Name = "Foto de persona")]
+        [Display(Name = "Foto de actor")]
         public string Photo { get; set; }
 
 
-        public List<Film> Films { get; set; }
+        public List<MovieActor> MovieActors { get; set; }
     }
 }
